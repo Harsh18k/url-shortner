@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+    <title>Home Page</title>
+</head>
+<body>
+    <h1>URL Shortner</h1>
+
+    <% if (newId) { %>
+        <p>URL Generated : https://localhost:8001/url/<%= newId %></p>
+      <% } %>
+    
+    <div>
+        <form method="post" action="/url"> 
+            <label>Enter Your Original URL</label>
+            <input type="text" placeholder="https://example.com" name="url">
+            <button type="submit">Generate Shorten URL</button>
+        </form>
+    </div>
+
+    <!-- Table to render analytics data -->
+    <div>
+        <% if (urls && urls.length > 0) { %>
+            <table border="1" cellpadding="5" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>S. No</th>
+                        <th>Shortened URL</th>
+                        <th>Original URL (redirect to)</th>
+                        <th>Clicks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% urls.forEach((url, index) => { %>
+                        <tr>
+                            <td><%= index + 1 %></td>
+                            <td>
+                                <a href="http://localhost:8001/url/<%= url.shortUrl %>">
+                                    http://localhost:8001/url/<%= url.shortUrl %>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="<%= url.originalUrl %>" target="_blank">
+                                    <%= url.originalUrl %>
+                                </a>
+                            </td>
+                            <td><%= url.visitHistory.length %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
+    </div>
+</body>
+</html>
